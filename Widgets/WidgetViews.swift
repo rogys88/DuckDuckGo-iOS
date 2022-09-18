@@ -205,6 +205,98 @@ struct FavoritesWidgetView: View {
     }
 }
 
+struct FavoritesLauncherAccessoryView: View {
+
+    var entry: Provider.Entry
+
+    var body: some View {
+        ZStack {
+//
+//            if #available(iOS 16, *) {
+//                AccessoryWidgetBackground()
+//                    .cornerRadius(8)
+//            }
+
+            HStack {
+
+                ForEach(entry.favorites, id: \.url.absoluteString) { favorite in
+
+                    Group {
+                        if let image = favorite.favicon {
+
+                            Image(uiImage: image)
+                                .resizable()
+                                .frame(width: 32, height: 32, alignment: .center)
+
+                        } else if favorite.isDuckDuckGo {
+
+                            Image("DarkLogo")
+                                .resizable()
+                                .frame(width: 32, height: 32, alignment: .center)
+
+                        } else {
+
+                            Text(favorite.domain.first?.uppercased() ?? "")
+                                .foregroundColor(Color.widgetFavoriteLetter)
+                                .font(.system(size: 36))
+
+                        }
+
+                    }
+                    .cornerRadius(8)
+                    .widgetURL(favorite.url)
+                }
+
+                Spacer()
+
+            }.padding(.horizontal)
+        }
+    }
+}
+
+@available(iOS 16, *)
+struct LauncherAccessoryView: View {
+
+    @Environment(\.widgetFamily) var widgetFamily
+
+    var body: some View {
+        switch widgetFamily {
+
+        case .accessoryCircular:
+
+            ZStack {
+                AccessoryWidgetBackground()
+
+                Image("WidgetDaxLogo2")
+                    .resizable()
+                    .frame(width: 66, height: 66, alignment: .center)
+                    .widgetURL(DeepLinks.newSearch)
+                    .widgetAccentable()
+
+            }
+
+        case .accessoryRectangular:
+            ZStack(alignment: .leading) {
+                AccessoryWidgetBackground()
+                    .cornerRadius(32)
+
+                Image("DarkLogo")
+                    .resizable()
+                    .frame(width: 48, height: 48, alignment: .center)
+                    .widgetURL(DeepLinks.newSearch)
+                    .padding(.leading, 8)
+
+            }.frame(height: 38)
+
+        default:
+            EmptyView()
+
+        }
+
+    }
+
+}
+
 struct SearchWidgetView: View {
     var entry: Provider.Entry
 

@@ -97,6 +97,9 @@ struct Provider: TimelineProvider {
         case .systemLarge:
             maxFavorites = 12
 
+        case .accessoryRectangular:
+            maxFavorites = 3
+
         default:
             maxFavorites = 0
         }
@@ -144,6 +147,25 @@ struct FavoritesEntry: TimelineEntry {
 
 }
 
+struct LauncherAccessoryWidget: Widget {
+    let kind: String = "LockScreenWidget"
+
+    var body: some WidgetConfiguration {
+        if #available(iOS 16, *) {
+            return StaticConfiguration(kind: kind, provider: Provider()) { _ in
+                return LauncherAccessoryView()
+            }
+            .configurationDisplayName(UserText.searchWidgetGalleryDisplayName)
+            .description(UserText.searchWidgetGalleryDescription)
+            .supportedFamilies([.accessoryCircular, .accessoryRectangular
+                               ])
+        } else {
+            return EmptyWidgetConfiguration()
+        }
+    }
+
+}
+
 struct SearchWidget: Widget {
     let kind: String = "SearchWidget"
 
@@ -171,6 +193,23 @@ struct FavoritesWidget: Widget {
     }
 }
 
+struct RectangularFavoritesAccessoryWidget: Widget {
+    let kind: String = "RectangularLockScreenWidget"
+
+    var body: some WidgetConfiguration {
+        if #available(iOS 16, *) {
+            return StaticConfiguration(kind: kind, provider: Provider()) { entry in
+                FavoritesLauncherAccessoryView(entry: entry)
+            }
+            .configurationDisplayName(UserText.favoritesWidgetGalleryDisplayName)
+            .description(UserText.favoritesWidgetGalleryDescription)
+            .supportedFamilies([.accessoryRectangular])
+        } else {
+            return EmptyWidgetConfiguration()
+        }
+    }
+}
+
 @main
 struct Widgets: WidgetBundle {
 
@@ -178,6 +217,8 @@ struct Widgets: WidgetBundle {
     var body: some Widget {
         SearchWidget()
         FavoritesWidget()
+        LauncherAccessoryWidget()
+        RectangularFavoritesAccessoryWidget()
     }
 
 }
