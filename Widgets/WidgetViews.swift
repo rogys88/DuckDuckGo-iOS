@@ -263,16 +263,14 @@ struct LauncherAccessoryView: View {
         switch widgetFamily {
 
         case .accessoryCircular:
-
             ZStack {
                 AccessoryWidgetBackground()
 
-                Image("WidgetDaxLogo2")
+                Image("DarkLogo")
                     .resizable()
-                    .frame(width: 66, height: 66, alignment: .center)
+                    .frame(width: 72, height: 72, alignment: .center)
                     .widgetURL(DeepLinks.newSearch)
                     .widgetAccentable()
-
             }
 
         case .accessoryRectangular:
@@ -282,11 +280,11 @@ struct LauncherAccessoryView: View {
 
                 Image("DarkLogo")
                     .resizable()
-                    .frame(width: 48, height: 48, alignment: .center)
+                    .frame(width: 54, height: 54, alignment: .center)
                     .widgetURL(DeepLinks.newSearch)
-                    .padding(.leading, 8)
+                    .padding(.leading, 4)
 
-            }.frame(height: 38)
+            }
 
         default:
             EmptyView()
