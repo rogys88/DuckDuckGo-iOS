@@ -20,6 +20,7 @@
 import Core
 import UIKit
 import Lottie
+import BrowserServicesKit
 
 private enum Const {
     static let maxNumberOfIcons = 4

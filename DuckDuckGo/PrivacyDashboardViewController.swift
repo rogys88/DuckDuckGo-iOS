@@ -22,7 +22,6 @@ import WebKit
 import Combine
 import Core
 import BrowserServicesKit
-import PrivacyDashboard
 
 class PrivacyDashboardViewController: UIViewController {
     
